@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
 
 
-class NavigationLocators:
+class PersonalAccountLocators:
     pass

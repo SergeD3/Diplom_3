@@ -17,4 +17,5 @@ def driver(request):
     driver.get(data.MAIN_PAGE_URL)
 
     yield driver
+
     driver.quit()

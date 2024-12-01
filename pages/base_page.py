@@ -2,6 +2,7 @@ import allure
 
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from seletools.actions import drag_and_drop
 
 
 class BasePage:
@@ -26,12 +27,18 @@ class BasePage:
     @allure.step('Поиск элемента по локатору.')
     def find_element_by_locator(self, locator):
         self.basic_wait_element(locator, by_visibility=True)
+
         return self.driver.find_element(*locator)
 
     @allure.step('Кликаю по элементу.')
     def click_element(self, locator):
         self.basic_wait_element(locator, by_clickable=True)
         self.driver.find_element(*locator).click()
+
+    @allure.step('Кликаю по элементу.')
+    def click_on_element_js(self, locator):
+        self.basic_wait_element(locator, by_clickable=True)
+        self.driver.execute_script("arguments[0].click();", locator)
 
     @allure.step('Прокручиваю страницу до элемента.')
     def scroll_to_element(self, locator):
@@ -50,12 +57,14 @@ class BasePage:
     def get_text_from_element(self, locator) -> str:
         self.basic_wait_element(locator, by_visibility=True)
         text = self.driver.find_element(*locator).text
+
         return text
 
     @allure.step('Получаю значение(value) элемента.')
     def get_element_value(self, locator) -> str:
         self.basic_wait_element(locator, by_visibility=True)
         attribute = self.driver.find_element(*locator).get_attribute("value")
+
         return attribute
 
     @staticmethod
@@ -63,12 +72,14 @@ class BasePage:
     def format_locators(locator, num) -> tuple:
         method, locator = locator
         locator = locator.format(num=num)
+
         return method, locator
 
     @allure.step('Сравниваю значение в поле с ожидаемым значением.')
     def check_element_text(self, locator, text) -> bool:
         element_text = self.get_text_from_element(locator)
-        assert element_text == text
+
+        return element_text == text
 
     @allure.step('Ожидаю отображение элемента или его кликабельность.')
     def basic_wait_element(self, locator, by_visibility: bool = False, by_clickable: bool = False):
@@ -82,3 +93,7 @@ class BasePage:
     @allure.step('Ожидаю прекращение отображения элемента на странице.')
     def basic_wait_until_not_visibility(self, locator):
         self.wait.until_not(expected_conditions.visibility_of_element_located(locator))
+
+    @allure.step("Перемещаю элемент(drag_and_drop)")
+    def move_elements(self, source, target):
+        return drag_and_drop(self.driver, source, target)
