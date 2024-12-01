@@ -1,7 +1,7 @@
 MAIN_PAGE_URL = "https://stellarburgers.nomoreparties.site/"
 ADDITIONAL_URLS = {
     'register_page': 'register',
-    'log_in': 'login',
+    'login_page': 'login',
     'account_profile': 'account/profile',
     'forgot_password': 'forgot-password',
     'reset_password': 'reset-password',

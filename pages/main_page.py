@@ -12,3 +12,4 @@ class MainPage(BasePage):
     def click_to_personal_account(self):
         element = self.find_element_by_locator(self.mp_locators.MENU_PERSONAL_ACCOUNT_BUTTON)
         self.click_on_element_js(element)
+
