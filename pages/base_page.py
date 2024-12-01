@@ -2,6 +2,10 @@ import allure
 
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from locators.forgot_password_page_locators import ForgotPasswordPageLocators
+from locators.login_page_locators import LoginPageLocators
+from locators.main_page_locators import MainPageLocators
+from locators.reset_password_page_locators import ResetPasswordPageLocators
 from seletools.actions import drag_and_drop
 
 
@@ -10,6 +14,10 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 30)
+        self.mp_locators = MainPageLocators()
+        self.lp_locators = LoginPageLocators()
+        self.fpp_locators = ForgotPasswordPageLocators()
+        self.rs_locators = ResetPasswordPageLocators()
 
     @allure.step('Открываю страницу.')
     def get_page(self, url, locator):
@@ -97,3 +105,9 @@ class BasePage:
     @allure.step("Перемещаю элемент(drag_and_drop)")
     def move_elements(self, source, target):
         return drag_and_drop(self.driver, source, target)
+
+    @allure.step("")
+    def get_element_attribute(self, locator, attribute):
+        element = self.find_element_by_locator(locator).get_attribute(attribute)
+
+        return element
