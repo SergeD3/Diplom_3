@@ -6,6 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from locators.forgot_password_page_locators import ForgotPasswordPageLocators
 from locators.login_page_locators import LoginPageLocators
 from locators.main_page_locators import MainPageLocators
+from locators.order_feed_locators import OrderFeedLocators
 from locators.personal_account_locators import PersonalAccountLocators
 from locators.reset_password_page_locators import ResetPasswordPageLocators
 from seletools.actions import drag_and_drop
@@ -21,6 +22,7 @@ class BasePage:
         self.fpp_locators = ForgotPasswordPageLocators()
         self.rs_locators = ResetPasswordPageLocators()
         self.pa_locators = PersonalAccountLocators()
+        self.of_locators = OrderFeedLocators()
 
     @allure.step('Открываю страницу')
     def get_page(self, url, locator):

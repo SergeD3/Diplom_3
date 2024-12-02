@@ -17,4 +17,7 @@ class MainPageLocators:
         "//p[contains(text(), 'Личный Кабинет')]/parent::a"
     )  # кнопка меню Личный кабинет
 
-    MAIN_PAGE_HEADER = By.XPATH, "//h1[contains(text(),'Соберите бургер')]"
+    MAIN_PAGE_HEADER = (By.XPATH, "//h1[contains(text(),'Соберите бургер')]")
+    MAIN_PAGE_CONSTRUCTOR = (By.XPATH, "//p[contains(text(), 'Конструктор')]/parent::a")
+    MAIN_PAGE_ORDER_FEED = (By.XPATH, "//p[contains(text(), 'Лента Заказов')]/parent::a")
+

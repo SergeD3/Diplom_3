@@ -1,14 +1,8 @@
-import time
-
-import data as dt
 import allure
 
-from pages.forgot_password_page import SiteNavigation
-from helpers import helpers as hp
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from pages.personal_account_page import PersonalAccountPage
-from pages.reset_password_page import ResetPasswordPage
 
 
 class TestPersonalAccountPage:

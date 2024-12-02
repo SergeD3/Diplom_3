@@ -35,3 +35,29 @@ class MainPage(BasePage):
     @allure.step("Ожидаю загрузки главной страницы")
     def wait_page_to_be_loaded(self):
         self.find_element_by_locator(self.mp_locators.MAIN_PAGE_HEADER)
+
+    @allure.step("Нажимаю на Конструктор")
+    def click_on_constructor(self):
+        element = self.find_element_by_locator(self.mp_locators.MAIN_PAGE_CONSTRUCTOR)
+        self.click_on_element_js(element)
+
+    @allure.step("Проверяю активен ли Конструктор")
+    def is_constructor_active(self):
+        expected_text = "active"
+        self.basic_wait_element(locator=self.mp_locators.MAIN_PAGE_CONSTRUCTOR, by_visibility=True)
+        attr = self.get_element_attribute(locator=self.mp_locators.MAIN_PAGE_CONSTRUCTOR, attribute="class")
+
+        return expected_text in attr
+
+    @allure.step("Нажимаю на Ленту заказов")
+    def click_on_order_feed(self):
+        element = self.find_element_by_locator(self.mp_locators.MAIN_PAGE_ORDER_FEED)
+        self.click_on_element_js(element)
+
+    @allure.step("Проверяю активна ли Лента заказов")
+    def is_order_feed_active(self):
+        expected_text = "active"
+        self.basic_wait_element(locator=self.mp_locators.MAIN_PAGE_ORDER_FEED, by_visibility=True)
+        attr = self.get_element_attribute(locator=self.mp_locators.MAIN_PAGE_ORDER_FEED, attribute="class")
+
+        return expected_text in attr
