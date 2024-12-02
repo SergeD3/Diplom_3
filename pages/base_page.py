@@ -1,10 +1,12 @@
 import allure
+from selenium.common import NoSuchElementException
 
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from locators.forgot_password_page_locators import ForgotPasswordPageLocators
 from locators.login_page_locators import LoginPageLocators
 from locators.main_page_locators import MainPageLocators
+from locators.personal_account_locators import PersonalAccountLocators
 from locators.reset_password_page_locators import ResetPasswordPageLocators
 from seletools.actions import drag_and_drop
 
@@ -18,25 +20,29 @@ class BasePage:
         self.lp_locators = LoginPageLocators()
         self.fpp_locators = ForgotPasswordPageLocators()
         self.rs_locators = ResetPasswordPageLocators()
+        self.pa_locators = PersonalAccountLocators()
 
-    @allure.step('Открываю страницу.')
+    @allure.step('Открываю страницу')
     def get_page(self, url, locator):
         self.driver.get(url)
         self.basic_wait_element(locator)
 
-    @allure.step('Переключаюсь на вторую открытую вкладку.')
+    @allure.step('Переключаюсь на вторую открытую вкладку')
     def basic_switch_to_opened_window(self):
         self.driver.switch_to.window(self.driver.window_handles[1])
 
-    @allure.step('Получаю текущий url.')
-    def get_current_url(self) -> str:
+    @allure.step('Получаю текущий url')
+    def get_current_url(self):
         return self.driver.current_url
 
-    @allure.step('Поиск элемента по локатору.')
+    @allure.step('Поиск элемента по локатору')
     def find_element_by_locator(self, locator):
         self.basic_wait_element(locator, by_visibility=True)
-
-        return self.driver.find_element(*locator)
+        try:
+            element = self.driver.find_element(*locator)
+            return element
+        except NoSuchElementException:
+            return False
 
     @allure.step('Кликаю по элементу.')
     def click_element(self, locator):
@@ -105,6 +111,10 @@ class BasePage:
     @allure.step("Перемещаю элемент(drag_and_drop)")
     def move_elements(self, source, target):
         return drag_and_drop(self.driver, source, target)
+
+    def wait_for_url_to_be(self, url):
+        WebDriverWait(self.driver, 10).until(
+            expected_conditions.url_to_be(url))
 
     @allure.step("")
     def get_element_attribute(self, locator, attribute):

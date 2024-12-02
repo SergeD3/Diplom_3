@@ -12,7 +12,9 @@ class MainPageLocators:
     )  # кнопка Оформить заказ
     MAIN_PAGE_BURGER_TITLE = (By.XPATH, '//h1[@class="text text_type_main-large mb-5 mt-10"]')  # заголовок конструктора
 
-    MENU_PERSONAL_ACCOUNT_BUTTON = (
+    MENU_PERSONAL_ACCOUNT_BTN = (
         By.XPATH,
-        '//nav/a/p[@class="AppHeader_header__linkText__3q_va ml-2"]'
+        "//p[contains(text(), 'Личный Кабинет')]/parent::a"
     )  # кнопка меню Личный кабинет
+
+    MAIN_PAGE_HEADER = By.XPATH, "//h1[contains(text(),'Соберите бургер')]"

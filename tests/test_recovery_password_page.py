@@ -17,7 +17,7 @@ class TestNavigation:
         login_page = LoginPage(driver)
         expected_url = f"{dt.MAIN_PAGE_URL}{dt.ADDITIONAL_URLS.get('forgot_password')}"
 
-        main_page.click_to_personal_account()
+        main_page.click_to_personal_account_before_auth()
         login_page.click_to_forgot_password()
 
         assert nav.check_current_url(expected_url) and nav.check_forgot_password_title()
@@ -31,7 +31,7 @@ class TestNavigation:
         expected_value = hp.get_random_email()
         expected_url = f"{dt.MAIN_PAGE_URL}{dt.ADDITIONAL_URLS.get('reset_password')}"
 
-        main_page.click_to_personal_account()
+        main_page.click_to_personal_account_before_auth()
         login_page.click_to_forgot_password()
         nav.enter_email_and_click_restore_btn(expected_value)
 
@@ -46,7 +46,7 @@ class TestNavigation:
 
         expected_value = hp.get_random_email()
 
-        main_page.click_to_personal_account()
+        main_page.click_to_personal_account_before_auth()
         login_page.click_to_forgot_password()
         nav.enter_email_and_click_restore_btn(expected_value)
         repass.click_eye_password_field()

@@ -42,9 +42,6 @@ class SiteNavigation(BasePage):
 
     @allure.step("Заполняю поле email и нажимаю кнопку Восстановить")
     def enter_email_and_click_restore_btn(self, expected_email):
-        # Вызвать метод заполнения поля Email
         self.set_email_field(expected_email)
-        # Вызвать метод нажатия на кнопку "Восстановить"
         self.click_restore_btn()
-        # Дождаться загрузки страницы сброса пароля
         self.basic_wait_element(self.rs_locators.SAVE_BTN, by_clickable=True)

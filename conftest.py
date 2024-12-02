@@ -1,7 +1,7 @@
 import pytest
 import data
 import json
-import requests as req
+import requests
 
 from selenium import webdriver
 from helpers import helpers as hp
@@ -25,15 +25,21 @@ def driver(request):
 
 
 @pytest.fixture
-def create_user_api():
-    creds = hp.get_random_user_credentials()
-    creds_json = json.dumps(creds)
-    response = req.post(
+def create_user_and_get_credentials():
+    payload = hp.get_random_user_credentials()
+    created_response = requests.post(
         url=f"{data.MAIN_PAGE_URL}{data.USER_REGISTRATION_PATH}",
         headers=data.COMMON_HEADERS,
-        data=creds_json
+        json=payload
     )
+    assert created_response.ok, "Ошибка создания пользователя"
 
-    assert response.ok, f"Ошибка: {response.status_code} : {response.text}"
+    yield payload
 
-    return creds
+    access_token = created_response.json()['accessToken']
+    headers = {'Authorization': access_token}
+
+    requests.delete(
+    url=f"{data.MAIN_PAGE_URL}{data.USER_EDIT_PATH}",
+    headers=headers
+    )
