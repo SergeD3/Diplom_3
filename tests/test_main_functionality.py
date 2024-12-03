@@ -1,9 +1,10 @@
+import time
+
 import allure
 
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
-from pages.order_feed_page import OrderFeedPage
-from pages.personal_account_page import PersonalAccountPage
+from pages.constructor_feed_page import ConstructorFeedPage
 
 
 class TestMainFunctionality:
@@ -29,8 +30,46 @@ class TestMainFunctionality:
     @allure.title("Проверяю, что клик на ингредиент открывает всплывающее окно с деталями")
     def test_click_on_ingredient_opens_ingredient_details_window(self, driver):
         main_page = MainPage(driver)
-        order_feed = OrderFeedPage(driver)
+        order_feed = ConstructorFeedPage(driver)
 
         order_feed.click_on_ingredient()
-        assert order_feed.is_ingredient_window_opened()
 
+        assert order_feed.ingredient_window_is_opened()
+
+    @allure.title("Проверяю, что всплывающее окно закрывается при клике по крестику")
+    def test_click_on_close_closes_detail_window(self, driver):
+        main_page = MainPage(driver)
+        order_feed = ConstructorFeedPage(driver)
+
+        order_feed.click_on_ingredient()
+        order_feed.click_on_close_button_detail_window()
+
+        assert order_feed.ingredient_window_is_closed()
+
+    @allure.title("Проверяю, что при добавлении ингредиента в заказ, увеличивается счётчик добавленного ингредиента")
+    def test_adding_ingredient_increases_value_in_counter(self, driver):
+        main_page = MainPage(driver)
+        order_feed = ConstructorFeedPage(driver)
+        counter_number = 0
+
+        order_feed.add_ingredient_to_order()
+        actual_result = int(order_feed.is_counter_increased())
+
+        assert actual_result > counter_number
+
+    @allure.title("Проверяю, что залогиненный пользователь может оформить заказ")
+    def test_authorized_user_can_make_order(self, driver, create_user_and_get_credentials):
+        main_page = MainPage(driver)
+        order_feed = ConstructorFeedPage(driver)
+        login_page = LoginPage(driver)
+
+        email = create_user_and_get_credentials.get('email')
+        password = create_user_and_get_credentials.get('password')
+
+        main_page.click_to_personal_account_before_auth()
+        login_page.form_field_filling(email=email, password=password)
+        main_page.wait_page_to_be_loaded()
+        order_feed.add_ingredients_to_order()
+        order_feed.click_place_order_button()
+
+        assert order_feed.order_window_is_displayed()

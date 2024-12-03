@@ -31,7 +31,12 @@ class BasePage:
 
     @allure.step('Переключаюсь на вторую открытую вкладку')
     def basic_switch_to_opened_window(self):
-        self.driver.switch_to.window(self.driver.window_handles[1])
+        try:
+            self.driver.switch_to.window(self.driver.window_handles[1])
+            return True
+        except Exception as ex:
+            print(f"Ошибка: нет окна для переключения")
+            return False
 
     @allure.step('Получаю текущий url')
     def get_current_url(self):
@@ -42,6 +47,14 @@ class BasePage:
         self.basic_wait_element(locator, by_visibility=True)
         try:
             element = self.driver.find_element(*locator)
+            return element
+        except NoSuchElementException:
+            return False
+
+    @allure.step('Поиск элемента по локатору без ожидания')
+    def find_elements(self, locator):
+        try:
+            element = self.driver.find_elements(*locator)
             return element
         except NoSuchElementException:
             return False
@@ -118,8 +131,8 @@ class BasePage:
         WebDriverWait(self.driver, 10).until(
             expected_conditions.url_to_be(url))
 
-    @allure.step("")
-    def get_element_attribute(self, locator, attribute):
+    @allure.step("Получаю атрибут элемент")
+    def get_element_attribute(self, locator, attribute, element=None):
         element = self.find_element_by_locator(locator).get_attribute(attribute)
 
         return element
