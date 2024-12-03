@@ -10,3 +10,5 @@ class OrderFeedLocators:
     DONE_COUNTER = (By.XPATH, "//p[contains(@class, 'OrderFeed_number') and starts-with(text(), '16')]")
     DONE_COUNTERS = (By.XPATH, "//p[contains(@class, 'OrderFeed_number')]")
 
+    IN_PROGRESS_SECTION = (By.XPATH, "//ul[contains(@class, 'OrderFeed_orderListReady')]/li")
+

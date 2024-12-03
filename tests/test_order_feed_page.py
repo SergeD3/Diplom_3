@@ -98,6 +98,19 @@ class TestOrderFeedPage:
 
         assert after > before
 
-    @allure.title("")
-    def test_(self):
-        pass
+    @allure.title("Проверяю, что после оформления заказа его номер появляется в разделе В работе.")
+    def test_after_creating_order_it_number_is_in_progress_section(self, driver, create_user_and_get_credentials):
+        main_page = MainPage(driver)
+        order_page = OrderFeedPage(driver)
+        login_page = LoginPage(driver)
+        constructor_feed_page = ConstructorFeedPage(driver)
+        email, password = create_user_and_get_credentials.get('email'), create_user_and_get_credentials.get('password')
+
+        main_page.click_to_personal_account_before_auth()
+        login_page.form_field_filling(email=email, password=password)
+        main_page.wait_page_to_be_loaded()
+
+        constructor_feed_page.add_ingredients_to_order()
+        constructor_feed_page.click_place_order_button()
+        order_number = constructor_feed_page.get_order_number()[1]
+        constructor_feed_page.click_on_close_button_detail_window()
