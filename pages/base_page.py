@@ -6,6 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from locators.forgot_password_page_locators import ForgotPasswordPageLocators
 from locators.login_page_locators import LoginPageLocators
 from locators.main_page_locators import MainPageLocators
+from locators.constructor_feed_locators import ConstructorFeedLocators
 from locators.order_feed_locators import OrderFeedLocators
 from locators.personal_account_locators import PersonalAccountLocators
 from locators.reset_password_page_locators import ResetPasswordPageLocators
@@ -22,6 +23,7 @@ class BasePage:
         self.fpp_locators = ForgotPasswordPageLocators()
         self.rs_locators = ResetPasswordPageLocators()
         self.pa_locators = PersonalAccountLocators()
+        self.cf_locators = ConstructorFeedLocators()
         self.of_locators = OrderFeedLocators()
 
     @allure.step('Открываю страницу')
@@ -111,12 +113,14 @@ class BasePage:
         return element_text == text
 
     @allure.step('Ожидаю отображение элемента или его кликабельность.')
-    def basic_wait_element(self, locator, by_visibility: bool = False, by_clickable: bool = False):
+    def basic_wait_element(self, locator, by_visibility: bool = False, by_clickable: bool = False, by_presence=False):
         if by_visibility is True and by_clickable is False:
             self.wait.until(expected_conditions.visibility_of_element_located(locator))
         elif by_visibility is False and by_clickable is True:
             self.wait.until(expected_conditions.element_to_be_clickable(locator))
-        elif by_visibility is True and by_clickable is True:
+        elif by_presence is True and by_visibility is False and by_clickable is False:
+            self.wait.until(expected_conditions.presence_of_all_elements_located(locator))
+        elif by_visibility is True and by_clickable is True and by_presence is True:
             print('Ошибка: необходимо задавать только один способ ожидания.')
 
     @allure.step('Ожидаю прекращение отображения элемента на странице.')

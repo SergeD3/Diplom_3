@@ -49,3 +49,9 @@ class PersonalAccountPage(BasePage):
         element = self.find_element_by_locator(locator=self.pa_locators.LOGOUT)
         self.click_on_element_js(element)
         self.wait_for_url_to_be(expected_url)
+
+    @allure.step("Проверяю, что определённый заказ есть в списке Истории заказов")
+    def specific_order_in_order_history_is_displayed(self, locator):
+        element = self.find_element_by_locator(locator)
+
+        return element.is_displayed()
