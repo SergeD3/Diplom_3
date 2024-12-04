@@ -14,11 +14,10 @@ class ResetPasswordPage(BasePage):
         element = self.find_element_by_locator(self.rs_locators.EYE_BTN)
         self.click_on_element_js(element)
 
-    @allure.step("")
+    @allure.step("Проверяю, что поле стало активным")
     def is_password_field_active(self):
         expected_value = 'text'
         expected_attr = 'type'
         value = self.get_element_attribute(self.rs_locators.PASSWORD_FIELD, expected_attr)
 
         return value == expected_value
-

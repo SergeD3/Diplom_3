@@ -1,5 +1,4 @@
 import allure
-import data as dt
 
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
@@ -37,7 +36,7 @@ class OrderFeedPage(BasePage):
 
         return new_order_locator
 
-    @allure.title("Получаю список заказов в Ленте заказов")
+    @allure.step("Получаю список заказов в Ленте заказов")
     def get_orders(self):
         self.basic_wait_element(self.of_locators.OF_ORDERS_LIST, by_visibility=True)
         elements = self.find_elements(self.of_locators.OF_ORDERS_LIST)

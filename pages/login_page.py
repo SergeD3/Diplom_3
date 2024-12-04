@@ -1,5 +1,4 @@
 import allure
-
 import data as dt
 
 from pages.base_page import BasePage

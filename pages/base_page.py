@@ -36,7 +36,7 @@ class BasePage:
         try:
             self.driver.switch_to.window(self.driver.window_handles[1])
             return True
-        except Exception as ex:
+        except NoSuchElementException:
             print(f"Ошибка: нет окна для переключения")
             return False
 
@@ -140,12 +140,13 @@ class BasePage:
     def move_elements(self, source, target):
         return drag_and_drop(self.driver, source, target)
 
+    @allure.step("Ожидаю изменения URL на определённый")
     def wait_for_url_to_be(self, url):
         WebDriverWait(self.driver, 10).until(
             expected_conditions.url_to_be(url))
 
     @allure.step("Получаю атрибут элемент")
-    def get_element_attribute(self, locator, attribute, element=None):
+    def get_element_attribute(self, locator, attribute):
         element = self.find_element_by_locator(locator).get_attribute(attribute)
 
         return element

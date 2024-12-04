@@ -1,6 +1,5 @@
 import pytest
 import data
-import json
 import requests
 
 from selenium import webdriver

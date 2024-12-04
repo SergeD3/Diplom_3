@@ -1,5 +1,3 @@
-import time
-
 import allure
 
 from pages.login_page import LoginPage
@@ -53,7 +51,7 @@ class TestMainFunctionality:
         counter_number = 0
 
         constructor_feed.add_ingredient_to_order()
-        actual_result = int(constructor_feed.is_counter_increased())
+        actual_result = constructor_feed.is_counter_increased()
 
         assert actual_result > counter_number
 

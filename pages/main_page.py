@@ -44,6 +44,7 @@ class MainPage(BasePage):
     @allure.step("Проверяю активен ли Конструктор")
     def is_constructor_active(self):
         expected_text = "active"
+
         self.basic_wait_element(locator=self.mp_locators.MAIN_PAGE_CONSTRUCTOR, by_visibility=True)
         attr = self.get_element_attribute(locator=self.mp_locators.MAIN_PAGE_CONSTRUCTOR, attribute="class")
 
@@ -58,6 +59,7 @@ class MainPage(BasePage):
     @allure.step("Проверяю активна ли Лента заказов")
     def is_order_feed_active(self):
         expected_text = "active"
+
         self.basic_wait_element(locator=self.mp_locators.MAIN_PAGE_ORDER_FEED, by_visibility=True)
         attr = self.get_element_attribute(locator=self.mp_locators.MAIN_PAGE_ORDER_FEED, attribute="class")
 
