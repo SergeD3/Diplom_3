@@ -40,6 +40,6 @@ def create_user_and_get_credentials():
     headers = {'Authorization': access_token}
 
     requests.delete(
-    url=f"{data.MAIN_PAGE_URL}{data.USER_EDIT_PATH}",
-    headers=headers
+        url=f"{data.MAIN_PAGE_URL}{data.USER_EDIT_PATH}",
+        headers=headers
     )

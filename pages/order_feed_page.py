@@ -66,3 +66,10 @@ class OrderFeedPage(BasePage):
 
         return number
 
+    @allure.step("Проверяю попал ли новый заказ в раздел В работе")
+    def is_order_in_progress(self, order_number):
+        expected_value = f"0{order_number}"
+        self.basic_wait_element(locator=self.of_locators.IN_PROGRESS_SECTION, by_text=True, exp_text=expected_value)
+        text = self.get_text_from_element(self.of_locators.IN_PROGRESS_SECTION)
+
+        return expected_value == text

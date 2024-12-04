@@ -53,6 +53,7 @@ class MainPage(BasePage):
     def click_on_order_feed(self):
         element = self.find_element_by_locator(self.mp_locators.MAIN_PAGE_ORDER_FEED)
         self.click_on_element_js(element)
+        self.basic_wait_element(locator=self.of_locators.OF_ORDERS, by_presence=True)
 
     @allure.step("Проверяю активна ли Лента заказов")
     def is_order_feed_active(self):

@@ -113,15 +113,24 @@ class BasePage:
         return element_text == text
 
     @allure.step('Ожидаю отображение элемента или его кликабельность.')
-    def basic_wait_element(self, locator, by_visibility: bool = False, by_clickable: bool = False, by_presence=False):
-        if by_visibility is True and by_clickable is False:
+    def basic_wait_element(
+            self, locator,
+            by_visibility: bool = False,
+            by_clickable: bool = False,
+            by_presence: bool = False,
+            by_text: bool = False,
+            exp_text=None
+    ):
+        if by_visibility is True:
             self.wait.until(expected_conditions.visibility_of_element_located(locator))
-        elif by_visibility is False and by_clickable is True:
+        elif by_clickable is True:
             self.wait.until(expected_conditions.element_to_be_clickable(locator))
-        elif by_presence is True and by_visibility is False and by_clickable is False:
+        elif by_presence is True:
             self.wait.until(expected_conditions.presence_of_all_elements_located(locator))
-        elif by_visibility is True and by_clickable is True and by_presence is True:
+        elif by_visibility is True and by_clickable is True and by_presence is True and by_text is True:
             print('Ошибка: необходимо задавать только один способ ожидания.')
+        elif by_text is True and exp_text is not None:
+            self.wait.until(expected_conditions.text_to_be_present_in_element(locator=locator, text_=exp_text))
 
     @allure.step('Ожидаю прекращение отображения элемента на странице.')
     def basic_wait_until_not_visibility(self, locator):

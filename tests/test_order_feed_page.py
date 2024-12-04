@@ -1,5 +1,3 @@
-import time
-
 import allure
 
 from pages.login_page import LoginPage
@@ -72,9 +70,7 @@ class TestOrderFeedPage:
 
         assert after > before
 
-    @allure.title(""
-                  "Проверяю, что при создании нового заказа значение в счетчике Выполнено за сегодня увеличивается"
-                  )
+    @allure.title("Проверяю, что при создании нового заказа значение в счетчике Выполнено за сегодня увеличивается")
     def test_creating_order_increases_done_today_counter(self, driver, create_user_and_get_credentials):
         main_page = MainPage(driver)
         order_page = OrderFeedPage(driver)
@@ -112,5 +108,8 @@ class TestOrderFeedPage:
 
         constructor_feed_page.add_ingredients_to_order()
         constructor_feed_page.click_place_order_button()
+        main_page.click_on_order_feed()
         order_number = constructor_feed_page.get_order_number()[1]
         constructor_feed_page.click_on_close_button_detail_window()
+
+        assert order_page.is_order_in_progress(order_number)
